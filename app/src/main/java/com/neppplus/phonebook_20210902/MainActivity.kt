@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
+import java.text.SimpleDateFormat
 
 class MainActivity : BaseActivity() {
 
@@ -81,6 +82,9 @@ class MainActivity : BaseActivity() {
         val fr = FileReader(myFile)
         val br = BufferedReader(fr)
 
+//        1991-05-08 String을 분석하는데 쓰일 양식.
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+
         while (true) {
 
             val line = br.readLine()
@@ -99,6 +103,12 @@ class MainActivity : BaseActivity() {
 
 //            이름, 폰번만 우선 폰번데이터로.
             val phoneNumData = PhoneNumData(infos[0], infos[1])
+
+//            phoneNumData 의 생년월일을, 실제 입력한 생년월일로.
+//            "1991-05-09" 로 분리된 String을 기반으로 => phoneNumData의 일자로 저장. =>  (String -> Calendar)
+//            SimpleDateFormat의  parse 기능 활용.
+
+            phoneNumData.birthDay.time = sdf.parse(infos[2])
 
 //            만들어진 폰번 데이터 목록에 추가.
             mPhoneNumList.add(phoneNumData)

@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.neppplus.phonebook_20210902.R
 import com.neppplus.phonebook_20210902.datas.PhoneNumData
+import java.util.*
 
 class PhoneNumAdapter(
     val mContext : Context,
@@ -35,6 +36,7 @@ class PhoneNumAdapter(
         val birthDayTxt = row.findViewById<TextView>(R.id.birthDayTxt)
         val phoneNumTxt = row.findViewById<TextView>(R.id.phoneNumTxt)
         val dialImg = row.findViewById<ImageView>(R.id.dialImg)
+        val birthDayImg = row.findViewById<ImageView>(R.id.birthDayImg)
 
 //        폰번 데이터 꺼내오자.
         val data = mList.get(position)
@@ -46,6 +48,38 @@ class PhoneNumAdapter(
 
 //        폰번데이터의 생년월일 (Calendar)을 -> 5월 8일 양식으로 가공 (String) 하는 방법.
         birthDayTxt.text = data.getFormattedBirthday()
+
+
+//        (올해의) 생일이 오늘로부터, 10일이내라면 생일이미지뷰 표시.
+//        멀다고 하면 표시 안함.
+
+//        1988.10.20 => 2021.10.20 변경하고, 오늘날짜랑 비교하자.
+
+//        올해로 변환해서 계산하는데 사용할 임시 생일 변수. => 올해 날짜로 되어있다. (오늘)
+        val tempBirthDay = Calendar.getInstance()
+//        원본 생일 변수에 적힌 날짜를 그대로 가져옴. => 연도도 같이 바뀐.
+        tempBirthDay.time = data.birthDay.time
+
+
+//        오늘 날짜를 별도 변수에 저장.
+        val today = Calendar.getInstance()
+//        오늘날짜의 년도를 가져와서 => 임시생일의 년도로 세팅. (올해의 생일로 완성)
+        tempBirthDay.set( Calendar.YEAR,  today.get(Calendar.YEAR) )
+
+//        생일 - 오늘 => 10일 이내? => 두 날짜를 모두 숫자로 변경.
+        val diffInMillis = tempBirthDay.timeInMillis  -  today.timeInMillis
+
+//        1/1000 초 까지 계산된 시간차이를 => 날짜로 변환.
+        val diffInDays = diffInMillis / 1000 / 60 / 60 / 24
+
+//        날짜 계산 결과 0보다 작다 : 생일이 오늘보다 이전이다.
+
+        if (diffInDays in 0..10) {
+            birthDayImg.visibility = View.VISIBLE
+        }
+        else {
+            birthDayImg.visibility = View.GONE
+        }
 
 
 //        이미지뷰에 클릭이벤트 부여.

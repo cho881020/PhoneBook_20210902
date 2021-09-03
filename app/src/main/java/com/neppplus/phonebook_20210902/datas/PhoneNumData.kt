@@ -30,4 +30,13 @@ class PhoneNumData(var name: String, var phoneNum : String) {
 
     }
 
+//    생년월일을 -> 5월 5일 등의 생일 양식으로 가공 함수.
+    val birthDayFormatter = SimpleDateFormat("M월 d일")
+
+    fun getFormattedBirthday() : String {
+
+        return birthDayFormatter.format( this.birthDay.time )
+
+    }
+
 }

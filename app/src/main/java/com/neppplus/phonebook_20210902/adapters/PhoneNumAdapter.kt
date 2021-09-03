@@ -30,6 +30,18 @@ class PhoneNumAdapter(
 //        이 밑으로는 row는 null이 아닌걸로 칠.
         val nameTxt = row!!.findViewById<TextView>(R.id.nameTxt)
         val birthDayTxt = row.findViewById<TextView>(R.id.birthDayTxt)
+        val phoneNumTxt = row.findViewById<TextView>(R.id.phoneNumTxt)
+
+//        폰번 데이터 꺼내오자.
+        val data = mList.get(position)
+
+        nameTxt.text = data.name
+        phoneNumTxt.text = data.phoneNum
+
+//        nameTxt.setText( data.getName() )
+
+//        폰번데이터의 생년월일 (Calendar)을 -> 5월 8일 양식으로 가공 (String) 하는 방법.
+        birthDayTxt.text = data.getFormattedBirthday()
 
 
         return row

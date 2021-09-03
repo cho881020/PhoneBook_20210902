@@ -38,6 +38,10 @@ class EditPhoneNumActivity : BaseActivity() {
 
 //            2. 폰번 데이터 객체로 만들자. (클래스 추가)
 
+            val savePhoneNumData = PhoneNumData(inputName, inputPhoneNum)
+//            폰번데이터의 생년월일 -> 선택한날짜에 적힌 년월일 그대로 대입.
+//            하나의 Calendar값 -> 다른 Calendar에 옮겨적기
+            savePhoneNumData.birthDay.time = mSelectedDate.time
 
 //            3. 해당 폰번을 -> "이름,폰번,생년월일" 양식으로 가공 -> 파일에 저장.
 

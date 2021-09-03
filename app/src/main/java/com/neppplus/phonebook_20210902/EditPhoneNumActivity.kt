@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.widget.DatePicker
+import android.widget.Toast
 import com.neppplus.phonebook_20210902.datas.PhoneNumData
 import kotlinx.android.synthetic.main.activity_edit_phone_num.*
 import java.io.BufferedWriter
@@ -55,6 +56,10 @@ class EditPhoneNumActivity : BaseActivity() {
 
 
             savePhoneNumToFile(saveStr)
+
+//            4. 토스트로 저장성공 안내 + 화면 종료
+            Toast.makeText(mContext, "전화번호가 추가로 저장되었습니다.", Toast.LENGTH_SHORT).show()
+            finish()
 
 
         }

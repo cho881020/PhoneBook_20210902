@@ -90,6 +90,12 @@ class MainActivity : BaseActivity() {
 
         val myFile = File(filesDir, "phoneBook.txt")
 
+//        처음깔았으면, phoneBook.txt가 없을 예정 => 파일 읽어오기는 막아두자.
+        if (!myFile.exists()) {
+            Log.d("파일없음", "아직 메모된 내용이 없습니다.")
+            return
+        }
+
         val fr = FileReader(myFile)
         val br = BufferedReader(fr)
 

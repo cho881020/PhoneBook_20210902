@@ -3,10 +3,14 @@ package com.neppplus.phonebook_20210902
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.neppplus.phonebook_20210902.adapters.PhoneNumAdapter
 import com.neppplus.phonebook_20210902.datas.PhoneNumData
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
 
 class MainActivity : BaseActivity() {
 
@@ -49,11 +53,13 @@ class MainActivity : BaseActivity() {
 
 //        임시방편 : 직접 리스트에 데이터 객체 추가.
 
-        mPhoneNumList.add( PhoneNumData("테스트1", "010-1111-2222") )
-        mPhoneNumList.add( PhoneNumData("테스트2", "010-3333-4444") )
-        mPhoneNumList.add( PhoneNumData("테스트3", "010-5555-6666") )
+//        mPhoneNumList.add( PhoneNumData("테스트1", "010-1111-2222") )
+//        mPhoneNumList.add( PhoneNumData("테스트2", "010-3333-4444") )
+//        mPhoneNumList.add( PhoneNumData("테스트3", "010-5555-6666") )
 
 //        수정방안 -> 파일을 불러와서, 그 내용을 읽고 -> PhoneNumDate()로 변환. -> 목록에 추가.
+
+        readPhoneBookFromFile()
 
 
 //        어댑터 초기화.
@@ -65,4 +71,40 @@ class MainActivity : BaseActivity() {
 
 
     }
+
+//    파일에서 폰번 읽어와서 -> 폰번목록에 추가.
+
+    fun readPhoneBookFromFile() {
+
+        val myFile = File(filesDir, "phoneBook.txt")
+
+        val fr = FileReader(myFile)
+        val br = BufferedReader(fr)
+
+        while (true) {
+
+            val line = br.readLine()
+
+            if (line == null) {
+
+//                읽어온 내용이 없다면 -> 종료.
+                break
+            }
+
+            Log.d("읽어온 한줄", line)
+
+//            읽어온 line을 => , 기준으로 분리.
+
+            val infos = line.split(",")
+
+//            이름, 폰번만 우선 폰번데이터로.
+            val phoneNumData = PhoneNumData(infos[0], infos[1])
+
+//            만들어진 폰번 데이터 목록에 추가.
+            mPhoneNumList.add(phoneNumData)
+
+        }
+
+    }
+
 }
